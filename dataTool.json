@@ -1,0 +1,33 @@
+[
+      {
+        "id": 1,
+        "name": "Hammer",
+        "model": "H123",
+        "brand": "Truper",
+        "feature":	"Esto es un martillo",
+        "detail": "High-quality hammer for various applications",
+        "price": 9.99,
+        "image": "https://w7.pngwing.com/pngs/372/479/png-transparent-framing-hammer-hammer-handle-hammer-stockxchng-thumbnail.png"
+      },
+      {
+        "id": 2,
+        "name": "Screwdriver Set",
+        "model": "SD456",
+        "brand": "Pretul",
+        "feature":	"Esto es juego de herramientas",
+        "detail": "Set of screwdrivers with different sizes",
+        "price": 14.99,
+        "image": "https://www.harttools.com.au/media/catalog/product/cache/128bfa6b65d5a335ede230d7e3ded396/_/0/_0018_hsd55pc_accessory-shot-8.png"
+      },
+      {
+        "id": 3,
+        "name": "Paint Roller",
+        "model": "PR789",
+        "brand": "Comex",
+        "feature":	"Esto es un rodillo para pintar",
+        "detail": "Professional paint roller for smooth application",
+        "price": 7.99,
+        "image": "https://m.media-amazon.com/images/I/71l5aXu0wdL.jpg"
+      }
+    ]
+  
