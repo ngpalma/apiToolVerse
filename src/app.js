@@ -9,8 +9,7 @@ const mercadopago = require("mercadopago")
 server.name = 'API';
 const cors = require('cors')
 var corsOptions = {
-  origin: 'https://clienttoolverse-production.up.railway.app/',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+   origin: false 
 }
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
@@ -24,7 +23,7 @@ server.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
 
