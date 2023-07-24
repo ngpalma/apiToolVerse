@@ -12,12 +12,26 @@ const cors = require('cors')
 //    origin: false 
 // }
 
-server.use(cors())
-server.options('*', cors())
+
+
+const allowedOrigins = ['https://clienttoolverse-production.up.railway.app', 'https://clienttoolverse-production.up.railway.app/',"http://localhost:3000"];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+};
+
+server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
 server.use(cookieParser())
+
 server.use((req, res, next) => {
   // res.header("Access-Control-Allow-Origin", {origin: "*"}); // update to match the domain you will make the request from
   res.header(
