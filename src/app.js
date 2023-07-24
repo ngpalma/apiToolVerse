@@ -7,12 +7,14 @@ const cookieParser =require('cookie-parser');
 const server = express();
 const mercadopago = require("mercadopago")
 server.name = 'API';
+const cors = require('cors')
 
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
 server.use(cookieParser())
+server.use(cors())
 server.use((req, res, next) => {
   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Origin', "*");
