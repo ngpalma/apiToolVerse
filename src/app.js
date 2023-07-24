@@ -14,19 +14,11 @@ const cors = require('cors')
 
 
 
-const allowedOrigins = ['https://clienttoolverse-production.up.railway.app/login', 'https://clienttoolverse-production.up.railway.app/register',"http://localhost:3000", ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('No permitido por CORS'));
-    }
-  },
-};
 
-server.use(cors(corsOptions));
+server.use((cors({
+  origin: '*',
+})));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
