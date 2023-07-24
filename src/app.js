@@ -16,22 +16,20 @@ const cors = require('cors')
 
 
 
-server.use((cors({
-  origin: '*',
-})));
+server.use(cors());
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
 server.use(cookieParser())
-server.use((req, res, next) => {
-  res.cookie('cookie_name', 'cookie_value', {
-    maxAge: 3600000, // Tiempo de vida de la cookie en milisegundos (ejemplo: 1 hora)
-    httpOnly: true, // Acceso solo desde el servidor
-    secure: true, // Solo se enviará en solicitudes HTTPS
-    sameSite: 'none', // Permite enviar la cookie en solicitudes cross-origin
-  });
-  next();
-});
 server.use(routes);
 
 
