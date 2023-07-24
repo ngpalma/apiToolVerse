@@ -31,7 +31,15 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(morgan('dev'));
 server.use(cookieParser())
-
+server.use((req, res, next) => {
+  res.cookie('cookie_name', 'cookie_value', {
+    maxAge: 3600000, // Tiempo de vida de la cookie en milisegundos (ejemplo: 1 hora)
+    httpOnly: true, // Acceso solo desde el servidor
+    secure: true, // Solo se enviará en solicitudes HTTPS
+    sameSite: 'none', // Permite enviar la cookie en solicitudes cross-origin
+  });
+  next();
+});
 server.use(routes);
 
 
