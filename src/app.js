@@ -14,7 +14,7 @@ const cors = require('cors')
 
 
 
-const allowedOrigins = ['https://clienttoolverse-production.up.railway.app', 'https://clienttoolverse-production.up.railway.app/',"http://localhost:3000"];
+const allowedOrigins = ['https://clienttoolverse-production.up.railway.app/login', 'https://clienttoolverse-production.up.railway.app/register',"http://localhost:3000", ];
 
 const corsOptions = {
   origin: function (origin, callback) {
