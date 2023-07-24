@@ -29,6 +29,12 @@ const getPurchaseOrderById = async (req, res)=>{
                       {model: PaymentMethod} 
                 ],
             });
+
+            if (!order) {
+              // Si order es null (no se encontró ninguna orden con el ID dado)
+              return res.status(404).json({ error: "ID not exist" });
+            }
+            
           res.json(order);
 
           }catch(error){
@@ -38,9 +44,9 @@ const getPurchaseOrderById = async (req, res)=>{
 
 const createPurchaseOrder = async (req, res) => {
     try{
-       const {userId, shippingAddressId, paymentMethodId, total} = req.body;
+       const {userId, purchaseCartId, shippingAddressId, paymentMethodId, total} = req.body;
 
-       const order = await PurchaseOrder.create({userId, shippingAddressId, paymentMethodId, total});
+       const order = await PurchaseOrder.create({userId,purchaseCartId, shippingAddressId, paymentMethodId, total});
 
        res.json(order);
 
@@ -56,17 +62,44 @@ const deletePurchaseOrder = async (req, res) => {
          await PurchaseOrder.destroy({
                            where: {id:id}
              }); 
-        res.json({success:true});
+        res.json({ message: 'Purchase Order deleted successfully' });
         
       }catch(error){
         res.status(404).json({ error: error.message });
       }
 };
 
+const updatePurchaseOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId, purchaseCartId, shippingAddressId, paymentMethodId, total } = req.body;
+
+    // Verificar si la orden de compra existe en la base de datos
+    const order = await PurchaseOrder.findByPk(id);
+    if (!order) {
+      return res.status(404).json({ message: 'Purchase Order not exist' });
+    }
+
+    // Actualizar los datos de la orden de compra
+    order.userId = userId;
+    order.purchaseCartId = purchaseCartId;
+    order.shippingAddressId = shippingAddressId;
+    order.paymentMethodId = paymentMethodId;
+    order.total = total;
+    await order.save();
+
+    // Responder con los datos actualizados de la orden de compra
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error updating Purchase Order' });
+  }
+};
 
 module.exports = {
     getAllPurchaseOrder,
     getPurchaseOrderById,
     createPurchaseOrder,
-    deletePurchaseOrder
+    deletePurchaseOrder,
+    updatePurchaseOrder
 };

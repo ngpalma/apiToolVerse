@@ -3,10 +3,10 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const bcrypt=require('bcrypt')
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DEPLOY } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
 
 const sequelize = new Sequelize(
-   DB_DEPLOY,
+   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/toolverse`,
    {
       logging: false, // set to console.log to see the raw SQL queries
       native: false, // lets Sequelize know we can use pg-native for ~30% more speed
@@ -40,7 +40,6 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-
 const { PaymentMethod, Product, PurchaseCart, PurchaseDetail, PurchaseOrder, ShippingAddress, User, Review,Task, StockMovement } = sequelize.models;
 // Aca vendrian las relaciones
 //1--> Usuario - Carrito
@@ -84,6 +83,10 @@ PurchaseOrder.belongsTo(PurchaseCart);
 // Establecemos la relación con el modelo de Producto
 Product.hasMany(StockMovement);
 StockMovement.belongsTo(Product);
+// Agrego Relacion User/PurchaseCart
+User.hasMany(PurchaseCart);
+PurchaseCart.belongsTo(User);
+
 // User.login=(email,password)=>{
 //    //Buscar usuario bueno no puede ser mas chico xd
 //    return User.findOne({

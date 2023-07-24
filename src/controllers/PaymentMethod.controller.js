@@ -1,6 +1,18 @@
 const {PaymentMethod}=require('../db')
 
 
+// Función para cargar valores permitidos en la tabla "paymentMethods"
+const loadPaymentMethods = async () => {
+  const paymentMethods = ["Débito", "Crédito", "Mercado Pago", "Paypal"];
+
+  for (const method of paymentMethods) {
+    await PaymentMethod.findOrCreate({
+      where: { name: method },
+      defaults: { name: method },
+    });
+  }
+};
+
 const getAllPaymentMethod=async(req,res)=>{
     try {
         const payment=await PaymentMethod.findAll()
@@ -20,6 +32,7 @@ const getPaymentMethodById=async(req,res)=>{
     }
 }
 
+//Para crear un nuevo metodo de pago
 const createPaymentMethod = async (req, res) => {
     try {
       const { name } = req.body;
@@ -39,4 +52,5 @@ const createPaymentMethod = async (req, res) => {
     getAllPaymentMethod,
     getPaymentMethodById,
     createPaymentMethod,
+    loadPaymentMethods
   }

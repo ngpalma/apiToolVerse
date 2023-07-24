@@ -20,12 +20,14 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 const {createDbTools, createDbCategories} = require("./src/Loading/loading.js")
+const {loadPaymentMethods} = require('./src/controllers/PaymentMethod.controller.js')
 const port = process.env.PORT || 3001;
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(async() => {
   await createDbTools();
   await createDbCategories();
+  await loadPaymentMethods();
   server.listen(port, () => {
     console.log(`%s listening at ${port}`); // eslint-disable-line no-console
   });

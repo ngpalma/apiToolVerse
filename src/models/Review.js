@@ -17,5 +17,9 @@ module.exports = (sequelize) => {
         max: 5,
       }
     },
+    comments: {
+      type: DataTypes.STRING(150),
+      allowNull: true, // Cambia a false si los comentarios son obligatorios
+    },
   },{timestamps: false});
 };
