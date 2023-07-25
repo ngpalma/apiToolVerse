@@ -1,12 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
+// const bodyParser = require('body-parser');
+// const morgan = require('morgan');
 const routes = require('./routes/index.js');
 require('./db.js');
-const cookieParser =require('cookie-parser');
+// const cookieParser =require('cookie-parser');
 const cors = require("cors");
 const server = express();
-const mercadopago = require("mercadopago");
+// const mercadopago = require("mercadopago");
 server.name = 'API';
 
 server.use(cors());
