@@ -11,9 +11,9 @@ let preference = {
     items: [],
     
     back_urls: {
-        success: 'http://localhost:3000/home',
-        failure: 'http://localhost:3000/error',
-        pending: 'http://localhost:3000/home',
+        success: 'https://clienttoolverse-production.up.railway.app/home',
+        failure: 'https://clienttoolverse-production.up.railway.app/error',
+        pending: 'https://clienttoolverse-production.up.railway.app/home',
     },
     auto_return: 'approved',
     binary_mode: true,

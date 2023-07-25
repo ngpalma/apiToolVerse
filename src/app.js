@@ -6,7 +6,7 @@ require('./db.js');
 const cookieParser =require('cookie-parser');
 const cors = require("cors");
 const server = express();
-const mercadopago = require("mercadopago")
+const mercadopago = require("mercadopago");
 server.name = 'API';
 
 server.use(cors());
