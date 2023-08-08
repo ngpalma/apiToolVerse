@@ -3,7 +3,7 @@ const {PaymentMethod}=require('../db')
 
 // Función para cargar valores permitidos en la tabla "paymentMethods"
 const loadPaymentMethods = async () => {
-  const paymentMethods = ["Débito", "Crédito", "Mercado Pago", "Paypal"];
+  const paymentMethods = ["Mercado Pago", "Paypal"];
 
   for (const method of paymentMethods) {
     await PaymentMethod.findOrCreate({

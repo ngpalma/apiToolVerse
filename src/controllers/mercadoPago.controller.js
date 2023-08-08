@@ -11,9 +11,9 @@ let preference = {
     items: [],
     
     back_urls: {
-        success: 'https://clienttoolverse-production.up.railway.app/home',
-        failure: 'https://clienttoolverse-production.up.railway.app/error',
-        pending: 'https://clienttoolverse-production.up.railway.app/home',
+        success: 'https://clienttoolverse-production.up.railway.app/feedback',
+        failure: 'http://localhost:3000/home',
+        pending: 'http://localhost:3000/home',
     },
     auto_return: 'approved',
     binary_mode: true,
@@ -40,4 +40,12 @@ let preference = {
     });
 };
 
-module.exports = { createPayment };
+const feedbackPayment = (req, res) => {
+  res.json({
+		Payment: req.query.payment_id,
+		Status: req.query.status,
+		MerchantOrder: req.query.merchant_order_id
+	});
+}
+
+module.exports = { createPayment, feedbackPayment };

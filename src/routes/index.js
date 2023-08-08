@@ -11,6 +11,7 @@ const routerStock=require('./router.stock')
 const routerUser=require('./routerUser')
 const routerPurchaseDetail=require('./routerPurchaseDetail')
 const routerMercadoPago=require('./routerMercadoPago')
+const routerCategory=require("./routeCategory")
 
 
 const router = Router();
@@ -27,6 +28,7 @@ router.use(routerStock)
 router.use(routerUser)
 router.use(routerPurchaseDetail)
 router.use(routerMercadoPago)
+router.use(routerCategory)
 
 
 

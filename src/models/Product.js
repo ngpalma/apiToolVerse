@@ -33,9 +33,9 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    image: {
+    image: { // Campo para almacenar la URL de la imagen
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     category: {
       type: DataTypes.ARRAY(DataTypes.STRING),
@@ -46,5 +46,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 15, // Establecer el valor predeterminado en 15
     }
-  },{timestamps: false});
+  },{timestamps: true});
 };
+
+
+
+
+

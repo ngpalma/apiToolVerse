@@ -2,15 +2,18 @@ const express = require('express');
 const routes = require('./routes/index.js');
 require('./db.js');
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const server = express();
 server.name = 'API';
 
 const corsOptions = {
-  origin: 'https://clienttoolverse-production.up.railway.app',
+  origin: process.env.NODE_ENV === 'production' ? 'https://clienttoolverse-production.up.railway.app' : 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
 };
+
+server.use(cookieParser());
 
 server.use(cors(corsOptions));
 server.use(express.json());

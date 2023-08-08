@@ -1,72 +1,75 @@
-const {PurchaseOrder, PurchaseCart, User, ShippingAddress, PaymentMethod} = require('../db');
+const { PurchaseOrder, PurchaseCart, User, ShippingAddress, PaymentMethod } = require('../db');
 
-const getAllPurchaseOrder = async (req, res) =>{
-         try{
-            const orders = await PurchaseOrder.findAll({
-                 include:[
-                         {model: PurchaseCart},
-                         {model: User},
-                         {model: ShippingAddress},
-                         {model: PaymentMethod}   
-                 ],
-            });
-            res.json(orders)
+const getAllPurchaseOrder = async (req, res) => {
+  try {
+    const orders = await PurchaseOrder.findAll({
+      include: [
+        { model: PurchaseCart },
+        { model: User },
+        { model: ShippingAddress },
+        { model: PaymentMethod }
+      ],
+    });
+    res.json(orders)
 
-         }catch(error){
-            res.status(404).json({error: "Purchase Orders not found"});
-         }
+  } catch (error) {
+    res.status(404).json({ error: "Purchase Orders not found" });
+  }
 };
 
-const getPurchaseOrderById = async (req, res)=>{
-          try{
-            const {id} = req.params;
-            const order = await PurchaseOrder.findOne({
-                where :{ id: id },
-                include:[
-                      {model: PurchaseCart},
-                      {model: User},
-                      {model: ShippingAddress},
-                      {model: PaymentMethod} 
-                ],
-            });
+const getPurchaseOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await PurchaseOrder.findOne({
+      where: { id: id },
+      include: [
+        { model: PurchaseCart },
+        { model: User },
+        { model: ShippingAddress },
+        { model: PaymentMethod }
+      ],
+    });
 
-            if (!order) {
-              // Si order es null (no se encontró ninguna orden con el ID dado)
-              return res.status(404).json({ error: "ID not exist" });
-            }
-            
-          res.json(order);
+    if (!order) {
+      // Si order es null (no se encontró ninguna orden con el ID dado)
+      return res.status(404).json({ error: "ID not exist" });
+    }
 
-          }catch(error){
-            res.status(404).json({error: "Purchase Orders not found"});
-          }
+    res.json(order);
+
+  } catch (error) {
+    res.status(404).json({ error: "Purchase Orders not found" });
+  }
 };
 
 const createPurchaseOrder = async (req, res) => {
-    try{
-       const {userId, purchaseCartId, shippingAddressId, paymentMethodId, total} = req.body;
+  try {
+    const { userId, purchaseCartId, shippingAddressId, paymentMethodId, total } = req.body;
+    console.log('el back recibe la info', 'userId', userId, 'purchaseCartId', purchaseCartId, 'shippingAddressId', shippingAddressId, 'paymenttMethodId', paymentMethodId, 'total', total)
 
-       const order = await PurchaseOrder.create({userId,purchaseCartId, shippingAddressId, paymentMethodId, total});
+    const order = await PurchaseOrder.create({ userId, purchaseCartId, shippingAddressId, paymentMethodId, total });
 
-       res.json(order);
+    console.log('lo que acaba de crear el back', order)
 
-    }catch(error){
-        res.status(404).json({ error: error.message });
-    }
+    res.status(200).json(order);
+
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
 };
 
 
 const deletePurchaseOrder = async (req, res) => {
-      try{
-         const {id} = req.params;
-         await PurchaseOrder.destroy({
-                           where: {id:id}
-             }); 
-        res.json({ message: 'Purchase Order deleted successfully' });
-        
-      }catch(error){
-        res.status(404).json({ error: error.message });
-      }
+  try {
+    const { id } = req.params;
+    await PurchaseOrder.destroy({
+      where: { id: id }
+    });
+    res.json({ message: 'Purchase Order deleted successfully' });
+
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
 };
 
 const updatePurchaseOrder = async (req, res) => {
@@ -97,9 +100,9 @@ const updatePurchaseOrder = async (req, res) => {
 };
 
 module.exports = {
-    getAllPurchaseOrder,
-    getPurchaseOrderById,
-    createPurchaseOrder,
-    deletePurchaseOrder,
-    updatePurchaseOrder
+  getAllPurchaseOrder,
+  getPurchaseOrderById,
+  createPurchaseOrder,
+  deletePurchaseOrder,
+  updatePurchaseOrder
 };

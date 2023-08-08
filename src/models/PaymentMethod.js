@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       primaryKey: true
     },
     name: {
-      type: DataTypes.ENUM("Débito", "Crédito", "Mercado Pago", "Paypal"),
+      type: DataTypes.ENUM("Mercado Pago", "Paypal"),
       allowNull: false,
     },
   },{timestamps: false});
