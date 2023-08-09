@@ -159,6 +159,27 @@ const deleteUser = async (req, res) => {
   }
 };
 
+/* const updatedUser = async (req, res) => {
+  try {
+    const { role, active } = req.body; 
+    if (typeof active === "boolean" || (role && typeof role === "string")) { 
+      await User.update(
+        {
+          role,
+          active
+        },
+        { where: { id: req.params.id } }
+      );
+      const user = await User.findByPk(req.params.id);
+      res.status(200).json(user);
+    } else {
+      res.status(400).send("Datos inválidos"); 
+    }
+  } catch (error) {
+    res.status(500).send("Error interno del servidor"); 
+  }
+}; */
+
 module.exports = {
   getAllUsers,
   getUserById,
