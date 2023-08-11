@@ -5,13 +5,11 @@ const jwt = require('jsonwebtoken');
 const { TOKEN_SECRET } = require("../config");
 const { transport } = require('../utils/correo')
 
-
-
 const register = async (req, res) => {
   const { email, password, firstName, lastName, role, phone } = req.body;
 
   try {
-    // console.log("Datos enviados en la solicitud REGISTER:", req.body);
+     console.log("Datos enviados en la solicitud REGISTER:", req.body);
     const userFound = await User.findOne({ where: { email } })
     if (userFound) return res.status(400).json({ message: "the email already exists" })
     const password_hash = await bcrypt.hash(password, 10);
@@ -66,35 +64,56 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    const isMatch = await bcrypt.compare(password, userFound.password);
-    if (!isMatch) {
-      console.log("Contraseña incorrecta");
-      return res.status(400).json({ message: "Incorrect password" });
+    if (userFound.passwordGoogle && password === "logingoogle") {
+      // Usuario registrado con Google, verificamos la contraseña "logingoogle"
+      const token = await createAccessToken({ id: userFound.id });
+      console.log("Token generado:", token);
+
+      res.cookie("token", token, {
+        sameSite: 'none',
+        secure: true
+      });
+
+      res.json({
+        id: userFound.id,
+        email: userFound.email,
+        firstName: userFound.firstName,
+        lastName: userFound.lastName,
+        phone: userFound.phone,
+        token: token // Asegurémonos de incluir el token en la respuesta JSON
+      });
+    } else {
+      // Usuario no registrado con Google, verificamos la contraseña normalmente
+      const isMatch = await bcrypt.compare(password, userFound.password);
+
+      if (!isMatch) {
+        console.log("Contraseña incorrecta");
+        return res.status(400).json({ message: "Incorrect password" });
+      }
+
+      const token = await createAccessToken({ id: userFound.id });
+      console.log("Token generado:", token);
+
+      res.cookie("token", token, {
+        sameSite: 'none',
+        secure: true
+      });
+
+      res.json({
+        id: userFound.id,
+        email: userFound.email,
+        firstName: userFound.firstName,
+        lastName: userFound.lastName,
+        phone: userFound.phone,
+        token: token // Asegurémonos de incluir el token en la respuesta JSON
+      });
     }
 
-    const token = await createAccessToken({ id: userFound.id });
-    console.log("Token generado:", token);
-
-    res.cookie("token", token, {
-      sameSite: 'none',
-      secure: true
-    });
-
-    res.json({
-      id: userFound.id,
-      email: userFound.email,
-      password: userFound.password,
-      firstName: userFound.firstName,
-      lastName: userFound.lastName,
-      phone: userFound.phone,
-      token: token // Asegurémonos de incluir el token en la respuesta JSON
-    });
   } catch (error) {
     console.log("Error en el controlador de login:", error.message);
     res.status(500).json(error.message);
   }
 };
-
 
 
 const logout = (req, res) => {
@@ -221,3 +240,47 @@ module.exports = {
   resetPassword,
   contactUs
 };
+
+
+// const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     console.log("Datos enviados en la solicitud LOGIN:", req.body);
+
+//     const userFound = await User.findOne({ where: { email } });
+
+//     if (!userFound) {
+//       console.log("Usuario no encontrado");
+//       return res.status(400).json({ message: "User not found" });
+//     }
+
+//     const isMatch = await bcrypt.compare(password, userFound.password);
+    
+//     if (!isMatch) {
+//       console.log("Contraseña incorrecta");
+//       return res.status(400).json({ message: "Incorrect password" });
+//     }
+
+//     const token = await createAccessToken({ id: userFound.id });
+//     console.log("Token generado:", token);
+
+//     res.cookie("token", token, {
+//       sameSite: 'none',
+//       secure: true
+//     });
+
+//     res.json({
+//       id: userFound.id,
+//       email: userFound.email,
+//       password: userFound.password,
+//       firstName: userFound.firstName,
+//       lastName: userFound.lastName,
+//       phone: userFound.phone,
+//       token: token // Asegurémonos de incluir el token en la respuesta JSON
+//     });
+//   } catch (error) {
+//     console.log("Error en el controlador de login:", error.message);
+//     res.status(500).json(error.message);
+//   }
+// };

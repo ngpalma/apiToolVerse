@@ -162,6 +162,7 @@ const deleteUser = async (req, res) => {
 /* const updatedUser = async (req, res) => {
   try {
     const { role, active } = req.body; 
+
     if (typeof active === "boolean" || (role && typeof role === "string")) { 
       await User.update(
         {
@@ -170,6 +171,7 @@ const deleteUser = async (req, res) => {
         },
         { where: { id: req.params.id } }
       );
+
       const user = await User.findByPk(req.params.id);
       res.status(200).json(user);
     } else {
@@ -180,6 +182,7 @@ const deleteUser = async (req, res) => {
   }
 }; */
 
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -187,5 +190,5 @@ module.exports = {
   newUser,
   updateUser,
   deleteUser,
-  newPage
+  newPage,
 };
